@@ -40,6 +40,7 @@ void reconnect();
 void sendSensorData();
 void initPowerMonitor();
 void getBatteryStats(float &vbat, float &batCurrent, float &batPower, int &batChargeCurrent, int &batLevel);
+float randomFloat(float min, float max);
 
 void setup() {
   Serial.begin(115200);
@@ -123,13 +124,13 @@ void reconnect() {
 
 void sendSensorData() {
   // Generate sensor data
-  float humidity = random(20, 35);
-  float temperature = random(20, 35);
-  float ec = random(0, 100);
-  float ph = random(0, 14);
-  float nitrogen = random(0, 5);
-  float phosphorus = random(0, 10);
-  float potassium = random(0, 15);
+  float humidity = randomFloat(20, 35);
+  float temperature = randomFloat(20, 35);
+  float ec = randomFloat(0, 100);
+  float ph = randomFloat(0, 14);
+  float nitrogen = randomFloat(0, 5);
+  float phosphorus = randomFloat(0, 10);
+  float potassium = randomFloat(0, 15);
 
   // Get battery data
   float vbat = 0, batCurrent = 0, batPower = 0;
@@ -222,4 +223,8 @@ void getBatteryStats(float &vbat, float &batCurrent, float &batPower, int &batCh
     // Calculate battery level (4.2V = 100%, 3.3V = 0%)
     batLevel = map(vbat * 1000, 3300, 4200, 0, 100);
     batLevel = constrain(batLevel, 0, 100);
+}
+
+float randomFloat(float min, float max) {
+    return (float)random(min * 100, max * 100) / 100;
 }
